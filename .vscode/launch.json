@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/erick/AppData/Local/Temp/bf1ff69f-1502-42b9-aee5-a01bd0fa8681_LINARES_CASTILLO_ANA_CAROLINA_3d58a853d8d3a972c87d3487b8d124db[1].zip.681",
+      "program": "c:/Users/erick/AppData/Local/Temp/bf1ff69f-1502-42b9-aee5-a01bd0fa8681_LINARES_CASTILLO_ANA_CAROLINA_3d58a853d8d3a972c87d3487b8d124db[1].zip.681/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

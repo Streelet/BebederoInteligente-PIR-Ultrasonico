@@ -1,0 +1,102 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    min-height: 95vh; 
+    background-color: #111111;
+    margin: 0;
+    padding: 20px; 
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #d7d7d7;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.sensor-container {
+    display: flex; /* Usa flexbox para organizar el tanque y otros sensores horizontalmente */
+    gap: 40px; /* Espacio entre elementos */
+    flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si la pantalla es estrecha */
+    justify-content: center; /* Centra los elementos si hay espacio extra */
+    align-items: flex-start; /* Alinea los elementos en la parte superior */
+}
+
+.tank-section, .pir-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tank-container {
+    width: 120px; /* Ancho del tanque */
+    height: 350px; /* Alto del tanque */
+    border: 6px solid #cfcfcf; /* Borde del tanque */
+    border-radius: 10px; /* Bordes ligeramente redondeados */
+    position: relative; /* Permite posicionar el líquido absolutamente dentro */
+    overflow: hidden; /* Oculta cualquier parte del líquido que se salga */
+    background-color: #111111; /* Fondo blanco para el tanque vacío */
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+}
+
+.tank-liquid {
+    width: 100%; /* El líquido ocupa todo el ancho del contenedor */
+    /* Degradado de color para el líquido */
+    background: linear-gradient(to top, #4CAF50, #8BC34A); /* Verde */
+    position: absolute; /* Posicionamiento absoluto */
+    bottom: 0; /* Se ancla a la parte inferior del contenedor */
+    left: 0;
+    /* La altura se establecerá dinámicamente con JavaScript */
+    height: 0; /* Comienza vacío */
+    transition: height 0.8s ease-in-out; /* Animación suave al cambiar la altura */
+}
+
+.tank-level-text {
+    margin-top: 15px; /* Espacio encima del texto */
+    font-size: 1.8em; /* Tamaño de fuente más grande */
+    color: #d1d1d1;
+    font-weight: bold;
+    text-align: center;
+}
+
+h2 {
+    color: #d7d7d7;
+    margin-bottom: 10px; /* Espacio debajo del título */
+    text-align: center;
+}
+
+
+/* Estilos para diferentes niveles de alerta */
+.low-level { background: linear-gradient(to top, #040739, #2c0e2d); } /* Rojo bajo */
+.medium-level { background: linear-gradient(to top, #203ea0, #2c2a76); } /* Naranja medio */
+.high-level { background: linear-gradient(to top, #225ca2, #14dcef); } /* Verde alto */
+
+/* --- Estilos para el PIR --- */
+.pir-status {
+     margin-top: 15px; /* Espacio encima del indicador */
+     font-size: 1.2em;
+     font-weight: bold;
+     text-align: center;
+}
+
+.pir-indicator {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Forma circular */
+    background-color: #ccc; /* Color por defecto (gris) */
+    margin-bottom: 10px; /* Espacio debajo del círculo */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pir-active {
+    background-color: #be3535; /* Rojo cuando hay movimiento */
+}
+
+.pir-inactive {
+    background-color: #467848; /* Verde cuando no hay movimiento */
+}
+
+

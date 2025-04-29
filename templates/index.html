@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensores del Tanque</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body>
+
+    <h1>Monitoreo de Sensores</h1>
+
+    <div class="sensor-container">
+
+        <div class="tank-section">
+            <h2>Nivel del Tanque</h2>
+            <div class="tank-container">
+                <div class="tank-liquid" id="tankLiquid"></div>
+            </div>
+            <div class="tank-level-text" id="tankLevelText">{{ initial_level }}%</div>
+        </div>
+
+        <div class="pir-section">
+             <h2>Sensor PIR</h2>
+             <div class="pir-indicator" id="pirIndicator"></div>
+             <div class="pir-status" id="pirStatusText">Cargando...</div>
+         </div>
+
+    </div>
+
+
+    <script>
+        // Función para actualizar la visualización del tanque (altura del líquido y texto)
+        function updateTankVisualization(percentage) {
+            const liquidElement = document.getElementById('tankLiquid');
+            const textElement = document.getElementById('tankLevelText');
+
+            const validPercentage = Math.max(0, Math.min(100, percentage));
+
+            liquidElement.style.height = validPercentage + '%';
+            textElement.innerText = validPercentage.toFixed(1) + '%'; // Mostrar un decimal para más precisión
+
+            // Cambiar el color del líquido basado en el nivel
+            liquidElement.classList.remove('low-level', 'medium-level', 'high-level');
+            if (validPercentage < 20) {
+                liquidElement.classList.add('low-level'); // Rojo
+            } else if (validPercentage < 50) {
+                liquidElement.classList.add('medium-level'); // Naranja
+            } else {
+                liquidElement.classList.add('high-level'); // Verde
+            }
+        }
+
+        // Función para actualizar la visualización del PIR
+         function updatePirVisualization(state) {
+             const indicatorElement = document.getElementById('pirIndicator');
+             const statusTextElement = document.getElementById('pirStatusText');
+
+             indicatorElement.classList.remove('pir-active', 'pir-inactive'); // Limpia clases anteriores
+
+             if (state === 1) {
+                 indicatorElement.classList.add('pir-active'); // Rojo
+                 statusTextElement.innerText = "¡Movimiento Detectado!";
+                 statusTextElement.style.color = "#be3535"; // Color del texto rojo
+             } else if (state === 0) {
+                  indicatorElement.classList.add('pir-inactive'); // Verde
+                  statusTextElement.innerText = "Sin Movimiento";
+                  statusTextElement.style.color = "#467848"; // Color del texto verde
+             } else {
+                 indicatorElement.style.backgroundColor = "#ccc"; // Gris por defecto
+                 statusTextElement.innerText = "Estado Desconocido";
+                 statusTextElement.style.color = "#333"; // Color del texto normal
+             }
+         }
+
+
+        // Función para obtener los datos de los sensores del servidor (Flask API)
+        function fetchSensorData() {
+            fetch('/api/sensor_data')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('La respuesta de la red no fue ok: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Datos recibidos del servidor:', data);
+
+                    if (data.hasOwnProperty('level')) {
+                         updateTankVisualization(data.level);
+                    }
+
+                    if (data.hasOwnProperty('pir_state')) {
+                        updatePirVisualization(data.pir_state);
+                    }
+
+
+                })
+                .catch(error => {
+                    console.error('Error al obtener datos de los sensores:', error);
+                });
+        }
+
+        // --- Ejecución al cargar la página ---
+
+        const updateInterval = 50; 
+        setInterval(fetchSensorData, updateInterval);
+
+
+    </script>
+
+</body>
+</html>
